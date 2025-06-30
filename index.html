@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gavs - Sistema de Formulários e Certificados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #BA1B1D 0%, #5B2333 100%);
+        }
+        .certificate-card {
+            background: linear-gradient(135deg, #F7F4F3 0%, #ffffff 100%);
+            border: 8px solid transparent;
+            border-image: linear-gradient(135deg, #BA1B1D 0%, #5B2333 100%);
+            border-image-slice: 1;
+        }
+        .form-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                z-index: 50;
+                height: 100vh;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#F7F4F3]">
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden fixed top-4 left-4 z-50">
+        <button id="menuBtn" class="p-2 rounded-md bg-blue-600 text-white">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar w-64 bg-white shadow-lg fixed h-full">
+        <div class="p-4 gradient-bg text-white flex items-center space-x-3">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                <i class="fas fa-certificate text-[#BA1B1D] text-2xl"></i>
+            </div>
+            <h1 class="text-xl font-bold">Gavs</h1>
+        </div>
+        <div class="p-4">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                    <i class="fas fa-user text-blue-600"></i>
+                </div>
+                <div>
+                    <p class="font-medium">Usuário</p>
+                    <p class="text-sm text-gray-500">Membro desde 2023</p>
+                </div>
+            </div>
+            <nav>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg bg-blue-50 text-blue-600">
+                            <i class="fas fa-home w-5"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#forms" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100">
+                            <i class="fas fa-list-alt w-5"></i>
+                            <span>Formulários</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#certificates" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100">
+                            <i class="fas fa-certificate w-5"></i>
+                            <span>Certificados</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100">
+                            <i class="fas fa-cog w-5"></i>
+                            <span>Configurações</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="absolute bottom-0 w-full p-4 border-t">
+            <button class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 w-full">
+                <i class="fas fa-sign-out-alt w-5"></i>
+                <span>Sair</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="md:ml-64 min-h-screen">
+        <!-- Header -->
+        <header class="bg-white shadow-sm p-4">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+                <div class="relative">
+                    <button class="p-2 rounded-full hover:bg-gray-100">
+                        <i class="fas fa-bell text-gray-500"></i>
+                        <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <main class="p-4">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500">Formulários completos</p>
+                            <h3 class="text-2xl font-bold">12</h3>
+                        </div>
+                        <div class="p-3 rounded-full bg-[#F7F4F3] text-[#BA1B1D]">
+                            <i class="fas fa-check-circle text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500">Certificados obtidos</p>
+                            <h3 class="text-2xl font-bold">8</h3>
+                        </div>
+                        <div class="p-3 rounded-full bg-[#F7F4F3] text-[#564D4A]">
+                            <i class="fas fa-certificate text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500">Formulários pendentes</p>
+                            <h3 class="text-2xl font-bold">4</h3>
+                        </div>
+                        <div class="p-3 rounded-full bg-[#F7F4F3] text-[#F24333]">
+                            <i class="fas fa-clock text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Forms Section -->
+            <section id="forms" class="mb-12">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Formulários disponíveis</h2>
+                    <button class="text-blue-600 hover:text-blue-800 flex items-center">
+                        <span>Ver todos</span>
+                        <i class="fas fa-chevron-right ml-1 text-sm"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Form Card 1 -->
+                    <div class="form-card bg-white rounded-lg shadow overflow-hidden transition-all duration-300">
+                        <div class="gradient-bg p-4 text-white">
+                            <h3 class="font-bold text-lg">Treinamento de Segurança</h3>
+                            <p class="text-sm opacity-90">Atualizado em 15/06/2023</p>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 mb-4">Complete este formulário para receber seu certificado de treinamento em segurança no trabalho.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">15 perguntas</span>
+                                <button class="bg-[#BA1B1D] hover:bg-[#5B2333] text-white px-4 py-2 rounded-md transition">
+                                    Responder
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Form Card 2 -->
+                    <div class="form-card bg-white rounded-lg shadow overflow-hidden transition-all duration-300">
+                        <div class="gradient-bg p-4 text-white">
+                            <h3 class="font-bold text-lg">Avaliação de Desempenho</h3>
+                            <p class="text-sm opacity-90">Atualizado em 10/06/2023</p>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 mb-4">Formulário de avaliação de desempenho trimestral para membros da equipe.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">20 perguntas</span>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition">
+                                    Responder
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Form Card 3 -->
+                    <div class="form-card bg-white rounded-lg shadow overflow-hidden transition-all duration-300">
+                        <div class="gradient-bg p-4 text-white">
+                            <h3 class="font-bold text-lg">Pesquisa de Satisfação</h3>
+                            <p class="text-sm opacity-90">Atualizado em 05/06/2023</p>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 mb-4">Ajude-nos a melhorar nossos serviços respondendo esta breve pesquisa.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">10 perguntas</span>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition">
+                                    Responder
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Certificates Section -->
+            <section id="certificates" class="mb-12">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Meus Certificados</h2>
+                    <button class="text-blue-600 hover:text-blue-800 flex items-center">
+                        <span>Ver todos</span>
+                        <i class="fas fa-chevron-right ml-1 text-sm"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Certificate Card 1 -->
+                    <div class="certificate-card rounded-lg shadow-lg overflow-hidden">
+                        <div class="gradient-bg p-4 text-white text-center">
+                            <i class="fas fa-certificate text-4xl mb-2"></i>
+                            <h3 class="font-bold text-lg">Certificado de Segurança</h3>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 mb-4">Concedido por completar com sucesso o treinamento de segurança no trabalho.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">Emitido em: 10/05/2023</span>
+                                <button class="text-blue-600 hover:text-blue-800 flex items-center">
+                                    <span>Visualizar</span>
+                                    <i class="fas fa-external-link-alt ml-1 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Certificate Card 2 -->
+                    <div class="certificate-card rounded-lg shadow-lg overflow-hidden">
+                        <div class="gradient-bg p-4 text-white text-center">
+                            <i class="fas fa-certificate text-4xl mb-2"></i>
+                            <h3 class="font-bold text-lg">Certificado de Liderança</h3>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 mb-4">Concedido por demonstrar excelência em habilidades de liderança.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">Emitido em: 22/04/2023</span>
+                                <button class="text-blue-600 hover:text-blue-800 flex items-center">
+                                    <span>Visualizar</span>
+                                    <i class="fas fa-external-link-alt ml-1 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Certificate Card 3 -->
+                    <div class="certificate-card rounded-lg shadow-lg overflow-hidden">
+                        <div class="gradient-bg p-4 text-white text-center">
+                            <i class="fas fa-certificate text-4xl mb-2"></i>
+                            <h3 class="font-bold text-lg">Certificado de Inovação</h3>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 mb-4">Reconhecimento por contribuições inovadoras para a organização.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">Emitido em: 15/03/2023</span>
+                                <button class="text-blue-600 hover:text-blue-800 flex items-center">
+                                    <span>Visualizar</span>
+                                    <i class="fas fa-external-link-alt ml-1 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Form Modal (hidden by default) -->
+            <div id="formModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <div class="gradient-bg p-4 text-white flex justify-between items-center">
+                        <h3 class="text-xl font-bold">Treinamento de Segurança</h3>
+                        <button id="closeModal" class="text-white hover:text-gray-200">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <form id="gavsForm">
+                            <!-- Question 1 -->
+                            <div class="mb-8">
+                                <h4 class="text-lg font-medium mb-3">1. Qual é o procedimento correto em caso de incêndio?</h4>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="radio" name="q1" class="form-radio text-[#BA1B1D]">
+                                        <span>Usar o extintor mais próximo e continuar trabalhando</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="radio" name="q1" class="form-radio text-blue-600">
+                                        <span>Gritar por ajuda e tentar apagar o fogo com água</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="radio" name="q1" class="form-radio text-blue-600">
+                                        <span>Acionar o alarme, evacuar a área e chamar os bombeiros</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="radio" name="q1" class="form-radio text-blue-600">
+                                        <span>Esperar que alguém mais qualificado tome uma atitude</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Question 2 -->
+                            <div class="mb-8">
+                                <h4 class="text-lg font-medium mb-3">2. Qual equipamento de proteção individual é obrigatório na área de produção?</h4>
+                                <div class="space-y-2">
+                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="checkbox" name="q2_1" class="form-checkbox text-[#BA1B1D]">
+                                        <span>Óculos de proteção</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="checkbox" name="q2_2" class="form-checkbox text-blue-600">
+                                        <span>Protetor auricular</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="checkbox" name="q2_3" class="form-checkbox text-blue-600">
+                                        <span>Luvas de segurança</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <input type="checkbox" name="q2_4" class="form-checkbox text-blue-600">
+                                        <span>Calçado de segurança</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Question 3 -->
+                            <div class="mb-8">
+                                <h4 class="text-lg font-medium mb-3">3. Descreva brevemente como você agiria ao identificar um vazamento químico:</h4>
+                                <textarea name="q3" rows="3" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#BA1B1D] focus:border-[#BA1B1D]"></textarea>
+                            </div>
+                            
+                            <div class="flex justify-between items-center pt-4 border-t">
+                                <button type="button" class="text-gray-500 hover:text-gray-700">
+                                    <i class="fas fa-arrow-left mr-1"></i> Voltar
+                                </button>
+                                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md transition">
+                                    Enviar Respostas
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certificate Modal (hidden by default) -->
+            <div id="certificateModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <div class="gradient-bg p-4 text-white flex justify-between items-center">
+                        <h3 class="text-xl font-bold">Certificado de Segurança</h3>
+                        <button id="closeCertModal" class="text-white hover:text-gray-200">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="certificate-card border-2 border-blue-200 rounded-lg p-8 text-center">
+                            <div class="mb-6">
+                                <img src="https://via.placeholder.com/150" alt="Logo Gavs" class="h-20 mx-auto">
+                            </div>
+                            <h2 class="text-3xl font-bold text-[#BA1B1D] mb-2">CERTIFICADO</h2>
+                            <p class="text-[#564D4A] mb-6">Este certificado atesta que</p>
+                            <h3 class="text-2xl font-bold text-[#5B2333] mb-6 border-b-2 border-[#BA1B1D] pb-4 inline-block px-8">Nome do Usuário</h3>
+                            <p class="text-gray-700 mb-8">Completou com sucesso o <span class="font-semibold">Treinamento de Segurança no Trabalho</span> em 10 de Maio de 2023, demonstrando conhecimento e competência no assunto.</p>
+                            <div class="flex justify-between items-center mt-12">
+                                <div class="text-center">
+                                    <div class="h-20 border-b-2 border-blue-200 mb-2"></div>
+                                    <p class="text-gray-600">Assinatura do Coordenador</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="h-20 border-b-2 border-blue-200 mb-2"></div>
+                                    <p class="text-gray-600">Assinatura do Diretor</p>
+                                </div>
+                            </div>
+                            <div class="mt-8">
+                                <p class="text-gray-500 text-sm">ID do Certificado: GAVS-SEG-2023-001234</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-center space-x-4">
+                            <button class="bg-[#BA1B1D] hover:bg-[#5B2333] text-white px-6 py-2 rounded-md transition flex items-center">
+                                <i class="fas fa-download mr-2"></i> Baixar PDF
+                            </button>
+                            <button class="bg-white border border-[#BA1B1D] text-[#BA1B1D] hover:bg-[#F7F4F3] px-6 py-2 rounded-md transition flex items-center">
+                                <i class="fas fa-share-alt mr-2"></i> Compartilhar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.getElementById('sidebar');
+        
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+        
+        // Form modal
+        const formModal = document.getElementById('formModal');
+        const closeModal = document.getElementById('closeModal');
+        const formButtons = document.querySelectorAll('.form-card button');
+        
+        formButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                formModal.classList.remove('hidden');
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            formModal.classList.add('hidden');
+        });
+        
+        // Certificate modal
+        const certModal = document.getElementById('certificateModal');
+        const closeCertModal = document.getElementById('closeCertModal');
+        const certButtons = document.querySelectorAll('.certificate-card button');
+        
+        certButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                certModal.classList.remove('hidden');
+            });
+        });
+        
+        closeCertModal.addEventListener('click', () => {
+            certModal.classList.add('hidden');
+        });
+        
+        // Form submission
+        const gavsForm = document.getElementById('gavsForm');
+        
+        gavsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Formulário enviado com sucesso! Você receberá seu certificado em breve.');
+            formModal.classList.add('hidden');
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === formModal) {
+                formModal.classList.add('hidden');
+            }
+            if (e.target === certModal) {
+                certModal.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
